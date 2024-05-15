@@ -563,28 +563,20 @@ m3sbq10_other_tmna m3sdq5_tsup_other m3sdq12_other_tsup m3sdq17_other_ildr ///
 m3sdq18_other_ildr m3sdq25_other_ildr m3seq5_other_tatt m3seq8_other_tsdp ///
 unique_teach_id teacher_unique_id iden district interview__key interview__id ///
 school tehsil shift schoollevel strata m4saq1_lwr m3_lwr m5_lwr enumerators_preload__0-enumerators_preload__99 ///
-m1s0q1_name_other m1s0q1_comments m1s0q8 m1s0q9__Timestamp m1s0q1_name m6_teacher_name m6s1q1__0-m6s1q1__5 Date_time m8_teacher_name m8s1q1__0-comments second_name first_name m2saq22 location
+m1s0q1_name_other m1s0q1_comments m1s0q8 m1s0q9__Timestamp m1s0q1_name m6_teacher_name m6s1q1__0-m6s1q1__5 Date_time m8_teacher_name m8s1q1__0-comments second_name first_name m2saq22 location teacher_name1-teacher_name4 senatorialdistrict classification
+
 
 foreach var of local drop{
       capture drop `var'
       di in r "return code for: `var': " _rc
 }
 
-
-
-*--- dropping vars with all missing (no obs)
-foreach var of varlist * {
-    capture assert missing(`var')
-    if !_rc drop `var'
-}
-
-
-do "${clone}/02_programs/School/Merge_Teacher_Modules/z_value_labels.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/zz_label_all_variables.do"
 do "${clone}/02_programs/School/Stata/labels.do"
+do "${clone}/02_programs/School/Merge_Teacher_Modules/zz_label_all_variables.do"
+do "${clone}/02_programs/School/Merge_Teacher_Modules/z_value_labels.do"
 
 
-order district_code school_code_maskd	teachers_id
+order district_code school_code_maskd teachers_id
 
 label var district_code "Masked district code"
 label var school_code_maskd"Masked school code"
