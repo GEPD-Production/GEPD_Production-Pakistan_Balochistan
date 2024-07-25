@@ -159,7 +159,6 @@ tab m1s0q9__Longitude, m
 tab m1s0q9__Latitude, m
 
 				
-sort school_code_maskd
 
 
 {								//Run the follwoing as a bloc -- to extract school geo data					
@@ -378,16 +377,12 @@ foreach var of local drop{
 log off dropped_vars
 
 
-do "${clone}/02_programs/School/Stata/labels.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/zz_label_all_variables.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/z_value_labels.do"
 
 label var district_code "Masked district code"
 label var school_code_maskd"Masked school code"
 
 order school_code_maskd district_code school_province_preload total_enrolled_c numEligible4th grade5_yesno  m1* m4* subject_test s1* s2*  m5* m6* m7* m8*
 
-sort school_code_maskd 
 
 log on dropped_vars
 *--- dropping vars with all missing (no obs)
@@ -443,7 +438,6 @@ di c(current_date)
 	d- [formate in master vs. formate in using]: varibales formatting has changed (e.g. int - str)
 */
 *-------------------------------------
-sort school_code
 capture noisily cf _all using "${save_dir}\school.dta", all verbose
 
 log off QA_anonymization
@@ -482,7 +476,6 @@ tab school_district_preload
 								//Since we have already extracted district data above, we don't need to generate random codes to them again
 								//We will only matched the random codes generated and stored while anonymizing school data
 
-sort school_district_preload
 joinby school_district_preload using "${save_dir}\sensetive_masked\district_info.dta", unmatched(both)
 								//merging district anonymous codes to the school data
 								
@@ -508,7 +501,6 @@ foreach var of local order{
 *--------------------------------------------
 tab strata
 
-sort strata
 joinby strata using "${save_dir}\sensetive_masked\strata_info.dta", unmatched(both)
 								//merging district anonymous codes to the school data
 								
@@ -525,7 +517,6 @@ br strata strata_code
 *--- Official school codes and school names
 br school_code
 
-sort school_code
 joinby school_code using "${save_dir}\sensetive_masked\school_info.dta", unmatched(both)
 								//merging school anonymous codes to the school data
 								
@@ -682,13 +673,8 @@ foreach var of local drop{
 }
 log off dropped_vars
 
-do "${clone}/02_programs/School/Stata/labels.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/zz_label_all_variables.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/z_value_labels.do"
-
 
 order district_code school_code_maskd teachers_id
-sort school_code_maskd teachers_id
 
 label var district_code "Masked district code"
 label var school_code_maskd"Masked school code"
@@ -748,7 +734,6 @@ di c(current_date)
 	d- [formate in master vs. formate in using]: varibales formatting has changed (e.g. int - str)
 */
 *-------------------------------------
-sort school_code teachers_id
 capture noisily cf _all using "${save_dir}\teachers.dta", all verbose
 
 log off QA_anonymization
@@ -784,7 +769,6 @@ capture noisely isid school_code ecd_assessment__id
 *Masking school information:								
 br school_code
 
-sort school_code
 joinby school_code using "${save_dir}\sensetive_masked\school_info.dta", unmatched(both)
 								//merging school anonymous codes to the school data
 								
@@ -799,7 +783,6 @@ tab _merge, nolab
 
 tab strata
 
-sort strata, stable
 joinby strata using "${save_dir}\sensetive_masked\strata_info.dta", unmatched(both)
 								//merging district anonymous codes to the school data
 								
@@ -823,13 +806,8 @@ foreach var of local drop{
 }
 log off dropped_vars
 
-do "${clone}/02_programs/School/Stata/labels.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/zz_label_all_variables.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/z_value_labels.do"
-
 
 order school_code_maskd ecd_assessment__id
-sort school_code_maskd ecd_assessment__id
 
 
 log on dropped_vars
@@ -883,7 +861,6 @@ di c(current_date)
 	d- [formate in master vs. formate in using]: varibales formatting has changed (e.g. int - str)
 */
 *-------------------------------------
-sort school_code  ecd_assessment__id
 
 capture noisily cf _all using "${save_dir}\first_grade_assessment.dta", all verbose
 
@@ -916,7 +893,6 @@ unique school_code fourth_grade_assessment__id
 *Masking school information:								
 br school_code
 
-sort school_code
 joinby school_code using "${save_dir}\sensetive_masked\school_info.dta", unmatched(both)
 								//merging school anonymous codes to the school data
 								
@@ -930,7 +906,6 @@ tab _merge, nolab
 
 tab strata
 
-sort strata
 joinby strata using "${save_dir}\sensetive_masked\strata_info.dta", unmatched(both)
 								//merging district anonymous codes to the school data
 								
@@ -955,13 +930,8 @@ foreach var of local drop{
 log  off dropped_vars
 
 
-do "${clone}/02_programs/School/Stata/labels.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/zz_label_all_variables.do"
-do "${clone}/02_programs/School/Merge_Teacher_Modules/z_value_labels.do"
-
 
 order school_code_maskd fourth_grade_assessment__id
-sort school_code_maskd fourth_grade_assessment__id
 
 
 log on dropped_vars
@@ -1016,7 +986,6 @@ di c(current_date)
 	
 */
 *-------------------------------------
-sort school_code fourth_grade_assessment__id
 
 capture noisily cf _all using "${save_dir}\fourth_grade_assessment.dta", all verbose
 
