@@ -110,6 +110,74 @@ gen school_weight=1/strata_prob // school level weight
 egen g4_stud_count = mean(m4scq4_inpt), by(school_code)
 
 
+
+********************************************************************************
+********************************************************************************
+
+* Fixes in the data after running the modules_check:
+
+
+* Comment_AR: Fix: wrongly assigned value to modules__1:
+replace modules__1 = 0 if interview__id == "b1b890345b5c47279bf30530dd93a4fa"
+
+* Comment_AR: Fix duplicates. Remove Extra m4 filled for school_codes: 2875 5275 5307 5399 where we have 2 m4 sections filled. 
+
+
+foreach var in m4saq1 m4saq1_number m4scq1_infr m4scq2_infr m4scq3_infr m4scq4_inpt m4scq4n_girls m4scq5_inpt m4scq6_inpt m4scq7_inpt m4scq8_inpt m4scq9_inpt m4scq10_inpt m4scq11_inpt m4scq12_inpt m4scq13_girls m4scq14_see m4scq14_sound m4scq14_walk m4scq14_comms m4scq14_learn m4scq14_behav m4scq15_lang {
+    // Check if the variable is numeric or string using ds
+    ds `var', has(type numeric)
+    if _rc == 0 { // If ds finds the variable is numeric
+        replace `var' = . if interview__id == "5151d414826d4e3c9c95471768743c58" | interview__id == "7ba916155b8e49fbbd63e2155a479c30" | interview__id == "5b5791209adc4f02a386f9fe04800304" | interview__id == "a3c272727a01434d8d1e86cd6afef20a"
+ 
+		
+    }
+    else { // Otherwise, assume it is string
+        replace `var' = "" if interview__id == "5151d414826d4e3c9c95471768743c58" | interview__id == "7ba916155b8e49fbbd63e2155a479c30" | interview__id == "5b5791209adc4f02a386f9fe04800304" | interview__id == "a3c272727a01434d8d1e86cd6afef20a"
+
+    }
+}
+
+
+replace modules__4 = 0 if interview__id == "5151d414826d4e3c9c95471768743c58" | interview__id == "7ba916155b8e49fbbd63e2155a479c30" | interview__id == "5b5791209adc4f02a386f9fe04800304" | interview__id == "a3c272727a01434d8d1e86cd6afef20a"
+
+* Fix Not dropping the duplicates from the ECD and First grade datasets as we dont know which is the correct module as 2 M6 sections are filled. (for school_code 8522)
+
+foreach var in m6_teacher_name m6_teacher_code m6_class_count m6_instruction_time m6s1q1__0 m6s1q1__1 m6s1q1__2 m6s1q1__3 m6s1q1__4 m6s1q1__5 {
+    // Check if the variable is numeric or string using ds
+    ds `var', has(type numeric)
+    if _rc == 0 { // If ds finds the variable is numeric
+        replace `var' = . if interview__id == "669619d20992428380c8722f250c332d" 
+		
+    }
+    else { // Otherwise, assume it is string
+        replace `var' = "" if interview__id == "669619d20992428380c8722f250c332d" 
+
+    }
+}
+
+
+replace modules__6 = 0 if interview__id == "669619d20992428380c8722f250c332d" 
+
+
+* Fixed incorrectly assigned module 8 variable as it wrongly entered causing duplicates for school_codes:  3651  & 6770
+
+replace modules__8 = 0 if interview__id == "58486177ed0e433a84ae2eae445e3995" |  interview__id == "c01c37a3c4eb4ed5b8968d86b7956365"
+
+
+* Balochistan Module Check Summary:
+
+* Module__1: Roster is done for 199 schools. Missing for one school i.e. 8789.
+* Module__4: Teacher questionnaire is filled for 195 sample schools, removing 4 duplicate for school_codes: 2875 5275 5307 5399
+* Modules__6: The ECD direct assessment was filled for 197 sample schools. Removed duplicates for school_code 8522, retaining all observations for this school code in the assessment dataset. 
+* Modules__8: The 4th grade assessment should be filled for 195 schools but we have data for 189 schools in the grade 4 assessment file. 
+
+********************************************************************************
+
+
+********************************************************************************
+********************************************************************************
+
+
 *create collapsed school file as a temp
 frame copy school school_collapse_temp
 frame change school_collapse_temp
