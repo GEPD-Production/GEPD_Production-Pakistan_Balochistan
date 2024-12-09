@@ -123,7 +123,7 @@ replace modules__1 = 0 if interview__id == "b1b890345b5c47279bf30530dd93a4fa"
 * Comment_AR: Fix duplicates. Remove Extra m4 filled for school_codes: 2875 5275 5307 5399 where we have 2 m4 sections filled. 
 
 
-foreach var in m4saq1 m4saq1_number m4scq1_infr m4scq2_infr m4scq3_infr m4scq4_inpt m4scq4n_girls m4scq5_inpt m4scq6_inpt m4scq7_inpt m4scq8_inpt m4scq9_inpt m4scq10_inpt m4scq11_inpt m4scq12_inpt m4scq13_girls m4scq14_see m4scq14_sound m4scq14_walk m4scq14_comms m4scq14_learn m4scq14_behav m4scq15_lang s2_0_1_1 s2_0_1_2 s2_0_2_1 s2_0_2_2 s2_0_3_1 s2_0_3_2 s2_a1 s2_a1_1 s2_a1_2 s2_a1_3 s2_a1_4a s2_a1_4b s2_a2 s2_a2_1 s2_a2_2 s2_a2_3 s2_b3 s2_b3_1 s2_b3_2 s2_b3_3 s2_b3_4 s2_b4 s2_b4_1 s2_b4_2 s2_b4_3 s2_b5 s2_b5_1 s2_b5_2 s2_b6 s2_b6_1 s2_b6_2 s2_b6_3 s2_c7 s2_c7_1 s2_c7_2 s2_c7_3 s2_c8 s2_c8_1 s2_c8_2 s2_c8_3 s2_c9 s2_c9_1 s2_c9_2 s2_c9_3 subject_test {
+foreach var in m4saq1 m4saq1_number m4scq1_infr m4scq2_infr m4scq3_infr m4scq4_inpt m4scq4n_girls m4scq5_inpt m4scq6_inpt m4scq7_inpt m4scq8_inpt m4scq9_inpt m4scq10_inpt m4scq11_inpt m4scq12_inpt m4scq13_girls m4scq14_see m4scq14_sound m4scq14_walk m4scq14_comms m4scq14_learn m4scq14_behav m4scq15_lang s1_0_1_1 s1_0_1_2 s1_0_2_1 s1_0_2_2 s1_0_3_1 s1_0_3_2 s1_a1 s1_a1_1 s1_a1_2 s1_a1_3 s1_a1_4a s1_a1_4b s1_a2 s1_a2_1 s1_a2_2 s1_a2_3 s1_b3 s1_b3_1 s1_b3_2 s1_b3_3 s1_b3_4 s1_b4 s1_b4_1 s1_b4_2 s1_b4_3 s1_b5 s1_b5_1 s1_b5_2 s1_b6 s1_b6_1 s1_b6_2 s1_b6_3 s1_c7 s1_c7_1 s1_c7_2 s1_c7_3 s1_c8 s1_c8_1 s1_c8_2 s1_c8_3 s1_c9 s1_c9_1 s1_c9_2 s1_c9_3 s2_0_1_1 s2_0_1_2 s2_0_2_1 s2_0_2_2 s2_0_3_1 s2_0_3_2 s2_a1 s2_a1_1 s2_a1_2 s2_a1_3 s2_a1_4a s2_a1_4b s2_a2 s2_a2_1 s2_a2_2 s2_a2_3 s2_b3 s2_b3_1 s2_b3_2 s2_b3_3 s2_b3_4 s2_b4 s2_b4_1 s2_b4_2 s2_b4_3 s2_b5 s2_b5_1 s2_b5_2 s2_b6 s2_b6_1 s2_b6_2 s2_b6_3 s2_c7 s2_c7_1 s2_c7_2 s2_c7_3 s2_c8 s2_c8_1 s2_c8_2 s2_c8_3 s2_c9 s2_c9_1 s2_c9_2 s2_c9_3 subject_test {
     // Check if the variable is numeric or string using ds
     ds `var', has(type numeric)
     if _rc == 0 { // If ds finds the variable is numeric
@@ -160,8 +160,12 @@ replace modules__6 = 0 if interview__id == "669619d20992428380c8722f250c332d"
 
 
 * Fixed incorrectly assigned module 8 variable as it wrongly entered causing duplicates for school_codes:  3651  & 6770
-
 replace modules__8 = 0 if interview__id == "58486177ed0e433a84ae2eae445e3995" |  interview__id == "c01c37a3c4eb4ed5b8968d86b7956365"
+
+* Add Missing school information to match with the teacher roster:
+
+replace m4saq1_number =2 if school_code == 9309 & interview__id == "7eb8bf2cb87e4bfd949a602d81959cbd"
+replace m4saq1 = "ehsan ali" if school_code == 9309 & interview__id == "7eb8bf2cb87e4bfd949a602d81959cbd"
 
 
 * Balochistan Module Check Summary:
