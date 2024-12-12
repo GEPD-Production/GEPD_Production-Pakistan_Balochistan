@@ -41,14 +41,16 @@ library(leaflet)
 library(ggpubr)
 library(webshot)
 
+
 #Country name and year of survey
-country_name <-'Bangladesh'
-country <- "BGD"
-year <- '2024'
-api_user <- "GEPD_api_BGD"
+country_name <-'Pakistan_Balochistan'
+country <- "PAK"
+year <- '2023'
+api_user <- "GEPD_api_PAK_Balochistan"
 teach=TRUE
 software= "Stata"
 options(survey.lonely.psu="adjust")
+
 
 #########################
 # File paths #
